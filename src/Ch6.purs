@@ -5,7 +5,9 @@ module Ch6 where
 import Math
 import Prelude
 
+import Data.Generic.Rep (class Generic)
 import Data.Newtype (class Newtype, over2, wrap)
+import Data.Show.Generic (genericShow)
 import Safe.Coerce (coerce)
 
 -- Define a Show instance for Point. 
@@ -64,5 +66,23 @@ instance semiringComplex :: Semiring Complex where
   -- Derive (via newtype) a Ring instance for Complex
 
 derive newtype instance ringComplex :: Ring Complex 
+
+-- write an Eq instance for the type NonEmpty a
+
+data NonEmpty a = NonEmpty a (Array a)
+
+derive instance genericNonEmpty :: Generic (NonEmpty a) _
+
+instance showInstance :: Show a => Show (NonEmpty a) where
+  show = genericShow
+
+instance eqNonEmpty :: (Eq a, Eq (Array a)) => Eq (NonEmpty a) where
+  eq :: NonEmpty a -> NonEmpty a -> Boolean
+  eq (NonEmpty x xs) (NonEmpty y ys) = eq x y && eq xs ys 
+  
+  
+
+
+
 
 

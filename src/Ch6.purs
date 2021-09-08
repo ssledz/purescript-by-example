@@ -5,6 +5,7 @@ module Ch6 where
 import Math
 import Prelude
 
+import Data.Foldable (class Foldable, foldMap, foldl, foldr)
 import Data.Generic.Rep (class Generic)
 import Data.Newtype (class Newtype, over2, wrap)
 import Data.Show.Generic (genericShow)
@@ -94,6 +95,20 @@ instance semiGroup :: Semigroup (Array a) => Semigroup (NonEmpty a) where
 instance functorNonEmpty :: Functor NonEmpty where
   map f (NonEmpty x xs) = NonEmpty (f x) $ map f xs
 
+
+-- Write an Ord instance for Extended a which reuses the Ord instance for a
+
+data Extended a = Infinite | Finite a
+
+-- TODO
+
+-- Write a Foldable instance for NonEmpty. Hint: reuse the Foldable instance for arrays.
+
+instance foldableNonEmpty :: Foldable Array => Foldable NonEmpty where
+  foldl f z (NonEmpty x xs) = foldl f z $ [x] <> xs
+  foldMap f (NonEmpty x xs) = foldMap f $ [x] <> xs
+  foldr f z (NonEmpty x xs) = foldr f z $ [x] <> xs
+ 
 
 
 

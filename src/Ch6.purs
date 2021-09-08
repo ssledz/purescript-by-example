@@ -67,7 +67,7 @@ instance semiringComplex :: Semiring Complex where
 
 derive newtype instance ringComplex :: Ring Complex 
 
--- write an Eq instance for the type NonEmpty a
+-- Write an Eq instance for the type NonEmpty a
 
 data NonEmpty a = NonEmpty a (Array a)
 
@@ -81,6 +81,20 @@ instance eqNonEmpty :: (Eq a, Eq (Array a)) => Eq (NonEmpty a) where
   eq (NonEmpty x xs) (NonEmpty y ys) = eq x y && eq xs ys 
   
   
+-- Write a Semigroup instance for NonEmpty a by reusing the Semigroup instance for Array  
+
+instance semiGroup :: Semigroup (Array a) => Semigroup (NonEmpty a) where
+  append (NonEmpty x xs) (NonEmpty y ys) = NonEmpty x $ append (append xs [y]) ys
+
+
+-- Write a Functor instance for NonEmpty
+
+-- derive instance functorNonEmpty :: Functor NonEmpty
+
+instance functorNonEmpty :: Functor NonEmpty where
+  map f (NonEmpty x xs) = NonEmpty (f x) $ map f xs
+
+
 
 
 

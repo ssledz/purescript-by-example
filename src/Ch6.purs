@@ -61,6 +61,8 @@ instance semiringComplex :: Semiring Complex where
   one  :: Complex
   one = wrap { real:1.0, imaginary:0.0 }
 
+  -- Derive (via newtype) a Ring instance for Complex
 
+derive newtype instance ringComplex :: Ring Complex 
 
 
